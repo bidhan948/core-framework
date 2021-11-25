@@ -1,0 +1,15 @@
+{
+    "name": "bidhan/core",
+    "authors": [
+        {
+            "name": "Bidhan",
+            "email": "Bidhanbaniya789@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "app\\":"./"
+        }
+    },
+    "require": {}
+}
