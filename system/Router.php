@@ -24,10 +24,24 @@ class Router
         $callback = $this->routes[$method][$path] ?? false;
         
         if ($callback == false) {
-            echo "404 PAGE NOT FOUND !!!";
+            return "404 PAGE NOT FOUND !!!";
             exit;
         }
+        
+        if (is_string($callback)) {
+            return $this->renderView($callback);
+        }
+       return call_user_func($callback);
+    }
 
-       echo call_user_func($callback);
+    public function renderView($view)
+    {
+        $layoutContent = $this->layoutContent();
+        include_once Application::$ROOT_DIR."/Views/$view.php";
+    }
+
+    public function layoutContent()
+    {
+        include_once Application::$ROOT_DIR."/Views/layout/navbar.php";
     }
 }
