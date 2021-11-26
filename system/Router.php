@@ -5,16 +5,23 @@ namespace app\system;
 class Router
 {
     public Request $request;
+    public Response $response;
     protected $routes = [];
 
-    public function __construct(Request $request)
+    public function __construct(Request $request,Response $response)
     {
-        $this->request = new $request;
+        $this->request = $request;
+        $this->response = $response;
     }
 
     public function get($path,$callback)
     {
         $this->routes['get'][$path] = $callback;    
+    }
+    
+    public function post($path,$callback)
+    {
+        $this->routes['post'][$path] = $callback;    
     }
 
     public function resolve()
@@ -24,7 +31,8 @@ class Router
         $callback = $this->routes[$method][$path] ?? false;
         
         if ($callback == false) {
-            return "404 PAGE NOT FOUND !!!";
+            $this->response->setStatusCode(404);
+            return $this->renderView("_404");
             exit;
         }
         
@@ -37,11 +45,26 @@ class Router
     public function renderView($view)
     {
         $layoutContent = $this->layoutContent();
-        include_once Application::$ROOT_DIR."/Views/$view.php";
+        $viewContent = $this->renderOnyView($view);
+        return str_replace('{{content}}',$viewContent,$layoutContent);
+    }
+    public function renderContent($viewContent)
+    {
+        $layoutContent = $this->layoutContent();
+        return str_replace('{{content}}',$viewContent,$layoutContent);
     }
 
     public function layoutContent()
     {
+        ob_clean();
         include_once Application::$ROOT_DIR."/Views/layout/navbar.php";
+        return ob_get_clean();
+    }
+    
+    public function renderOnyView($view)
+    {
+        ob_start();
+        include_once Application::$ROOT_DIR."/Views/$view.php";
+        return ob_get_clean();
     }
 }
