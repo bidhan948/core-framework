@@ -1,16 +1,11 @@
+<h1 class="text-center">this  is login page</h1>
 <form action="" method="post">
     <div class="row">
         <div class="col-md-4">
             <input type="text" class="form-control" placeholder="name" name="name">
         </div>
         <div class="col-md-4">
-            <input type="text" name="email" class="form-control">
-        </div>
-        <div class="col-md-4">
             <input type="text" name="password" class="form-control">
-        </div>
-        <div class="col-md-4">
-            <input type="text" name="confirmPassword" class="form-control">
         </div>
         <div class="col-md-4">
             <button type="submit" class="btn btn-primary" name="submit">Submit</button>
